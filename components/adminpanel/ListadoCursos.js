@@ -41,7 +41,7 @@ const ListadoCursos = () => {
       };
     });
     let misCursos = [];
-    if (usuario) misCursos = usuario.instructorProfile.cursos;
+    if (usuario) misCursos = usuario.userProfile.cursos;
 
     const resultFilter = result.filter((curso) => {
       if (misCursos.includes(curso.id)) {

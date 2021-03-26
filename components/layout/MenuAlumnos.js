@@ -120,6 +120,7 @@ const useStyles = makeStyles((theme) => ({
 const MenuAlumnos = ({ handleChangeTheme }) => {
   const classes = useStyles();
   const router = useRouter();
+
   return (
     <>
       <Button

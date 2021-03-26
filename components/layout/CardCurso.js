@@ -34,11 +34,7 @@ export default function CardCurso({ curso }) {
 
   useEffect(() => {
     if (usuario) {
-      if (usuario.isInstructor) {
-        setCursos(usuario.instructorProfile.cursos);
-      } else {
-        setCursos(usuario.userProfile.cursos);
-      }
+      setCursos(usuario.userProfile.cursos);
     }
   }, [usuario]);
 
@@ -49,7 +45,7 @@ export default function CardCurso({ curso }) {
           component="img"
           alt={curso.nombre}
           height="140"
-          image={"PortadaCursos/" + curso.urlportada}
+          image={curso.urlportada}
           title={curso.nombre}
         />
         <CardContent>
@@ -64,7 +60,7 @@ export default function CardCurso({ curso }) {
       <CardActions>
         {usuario ? (
           cursos.includes(curso.id) ? (
-            usuario.isInstructor ? (
+            usuario.userProfile.isInstructor ? (
               <Button
                 onClick={() => handleAdministrarCurso(curso.id)}
                 size="small"

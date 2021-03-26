@@ -243,7 +243,7 @@ export default function Header({ darkMode, changeTheme }) {
           </Typography>
           <div className={classes.grow} />
           {usuario ? (
-            usuario.isInstructor ? (
+            usuario.userProfile.isInstructor ? (
               <MenuInstructores handleChangeTheme={handleChangeTheme} />
             ) : (
               <MenuAlumnos handleChangeTheme={handleChangeTheme} />

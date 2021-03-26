@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Link from "next/link";
 import ListadoCursos from "../components/adminpanel/ListadoCursos";
 import styles from "../styles/Home.module.css";
@@ -11,6 +11,9 @@ import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Error403 from "../components/layout/403";
+import { useRouter } from "next/router";
+import firebase, { FirebaseContext } from "../firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,75 +33,80 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+  const { usuario } = useContext(FirebaseContext);
+  const router = useRouter();
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  return (
-    <div className={classes.root}>
-      <h1>Panel de Administración</h1>
-      <Accordion
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
+  if (!usuario || (usuario && !usuario.userProfile.isInstructor)) {
+    return <Error403 />;
+  } else
+    return (
+      <div className={classes.root}>
+        <h1>Panel de Administración</h1>
+        <Accordion
+          expanded={expanded === "panel1"}
+          onChange={handleChange("panel1")}
         >
-          <Typography className={classes.heading}>
-            Administración de Cursos
-          </Typography>
-          <Button size="small" color="primary">
-            Nuevo Curso
-          </Button>
-          {/* <Typography className={classes.secondaryHeading}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+          >
+            <Typography className={classes.heading}>
+              Administración de Cursos
+            </Typography>
+            <Button size="small" color="primary">
+              Nuevo Curso
+            </Button>
+            {/* <Typography className={classes.secondaryHeading}>
             I am an accordion
           </Typography> */}
-        </AccordionSummary>
-        <AccordionDetails>
-          <ListadoCursos />
-        </AccordionDetails>
-        <AccordionActions>
-          <Button size="small" color="primary">
-            Nuevo Curso
-          </Button>
-        </AccordionActions>
-      </Accordion>
-      <Accordion
-        expanded={expanded === "panel2"}
-        onChange={handleChange("panel2")}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2bh-content"
-          id="panel2bh-header"
+          </AccordionSummary>
+          <AccordionDetails>
+            <ListadoCursos />
+          </AccordionDetails>
+          <AccordionActions>
+            <Button size="small" color="primary">
+              Nuevo Curso
+            </Button>
+          </AccordionActions>
+        </Accordion>
+        <Accordion
+          expanded={expanded === "panel2"}
+          onChange={handleChange("panel2")}
         >
-          <Typography className={classes.heading}>
-            Administración de Alumnos
-          </Typography>
-          <Button size="small" color="primary">
-            Nuevo Alumno
-          </Button>
-          {/* <Typography className={classes.secondaryHeading}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2bh-content"
+            id="panel2bh-header"
+          >
+            <Typography className={classes.heading}>
+              Administración de Alumnos
+            </Typography>
+            <Button size="small" color="primary">
+              Nuevo Alumno
+            </Button>
+            {/* <Typography className={classes.secondaryHeading}>
             You are currently not an owner
           </Typography> */}
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Donec placerat, lectus sed mattis semper, neque lectus feugiat
-            lectus, varius pulvinar diam eros in elit. Pellentesque convallis
-            laoreet laoreet.
-          </Typography>
-        </AccordionDetails>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>
+              Donec placerat, lectus sed mattis semper, neque lectus feugiat
+              lectus, varius pulvinar diam eros in elit. Pellentesque convallis
+              laoreet laoreet.
+            </Typography>
+          </AccordionDetails>
 
-        <AccordionActions>
-          <Button size="small" color="primary">
-            Nuevo Alumno
-          </Button>
-        </AccordionActions>
-      </Accordion>
-    </div>
-  );
+          <AccordionActions>
+            <Button size="small" color="primary">
+              Nuevo Alumno
+            </Button>
+          </AccordionActions>
+        </Accordion>
+      </div>
+    );
 }

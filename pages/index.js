@@ -40,7 +40,6 @@ export default function Home() {
       };
     });
     setCursos(result);
-    //if (result.length == 0) setMensajeAlarma("No hay Alarmas configuradas.");
   }
 
   return (

@@ -5,26 +5,26 @@ function useAutenticacion() {
   const [usuarioAutenticado, guardarUsuarioAutenticado] = useState(null);
 
   useEffect(() => {
-    const buscarInstructor = async (usr) => {
-      const instructoresRef = firebase.db.collection("instructores");
-      const snapshot = await instructoresRef
-        .where("usuario", "==", usr.uid)
-        .get();
-      if (snapshot.empty) {
-        return {
-          ...usr,
-          isInstructor: false,
-          instructorProfile: null,
-          userProfile: null,
-        };
-      }
-      return {
-        ...usr,
-        isInstructor: true,
-        instructorProfile: snapshot.docs[0].data(),
-        userProfile: null,
-      };
-    };
+    // const buscarInstructor = async (usr) => {
+    //   const instructoresRef = firebase.db.collection("instructores");
+    //   const snapshot = await instructoresRef
+    //     .where("usuario", "==", usr.uid)
+    //     .get();
+    //   if (snapshot.empty) {
+    //     return {
+    //       ...usr,
+    //       isInstructor: false,
+    //       instructorProfile: null,
+    //       userProfile: null,
+    //     };
+    //   }
+    //   return {
+    //     ...usr,
+    //     isInstructor: true,
+    //     instructorProfile: snapshot.docs[0].data(),
+    //     userProfile: null,
+    //   };
+    // };
 
     const buscarUsuario = async (usr) => {
       const usuariosRef = firebase.db.collection("usuarios");
@@ -38,14 +38,14 @@ function useAutenticacion() {
       };
     };
 
-    function instructorCallback(resultado) {
-      if (resultado.isInstructor) {
-        guardarUsuarioAutenticado(resultado);
-      } else {
-        const usuario = buscarUsuario(resultado);
-        usuario.then(usuarioCallback);
-      }
-    }
+    // function instructorCallback(resultado) {
+    //   if (resultado.isInstructor) {
+    //     guardarUsuarioAutenticado(resultado);
+    //   } else {
+    //     const usuario = buscarUsuario(resultado);
+    //     usuario.then(usuarioCallback);
+    //   }
+    // }
 
     function usuarioCallback(resultado) {
       guardarUsuarioAutenticado(resultado);
@@ -53,8 +53,8 @@ function useAutenticacion() {
 
     const unsuscribe = firebase.auth.onAuthStateChanged((user) => {
       if (user) {
-        const instructor = buscarInstructor(user);
-        instructor.then(instructorCallback);
+        const usuario = buscarUsuario(user);
+        usuario.then(usuarioCallback);
       } else {
         guardarUsuarioAutenticado(null);
       }

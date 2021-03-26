@@ -52,19 +52,13 @@ const STATE_INICIAL = {
   urlportada: "",
 };
 
-function generate(element) {
-  return [0, 1, 2].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    })
-  );
-}
-
 const administrarCurso = () => {
   const [curso, setCurso] = useState({});
   //const [contenido, setContenido] = useState([]);
   const [errorBuscar, setErrorBuscar] = useState(false);
   const [error, setError] = useState(false);
+  const [imagen, setImagen] = useState(null);
+  const [imagenUpload, setImagenUpload] = useState(null);
 
   const router = useRouter();
   const classes = useStyles();
@@ -101,6 +95,13 @@ const administrarCurso = () => {
       return router.push("/login");
     }
 
+    let fileUrl = "";
+
+    //Grabo imagen
+    if (imagenUpload) {
+      fileUrl = await firebase.uploadFile(imagenUpload);
+    }
+
     // creo el obj curso
     const cursoUpdated = {
       categorias,
@@ -110,13 +111,18 @@ const administrarCurso = () => {
       nombre,
       requisitos,
       temario,
-      urlportada,
+      urlportada: fileUrl,
     };
 
     // inserto en DB
     firebase.db.collection("cursos").doc(id).update(cursoUpdated);
-    router.push("/dashboardInstructor");
+    router.push("/dashboardInstructores");
   }
+
+  const onFileChange = (e) => {
+    const file = e.target.files[0];
+    setImagenUpload(file);
+  };
 
   useEffect(() => {
     if (id) {
@@ -125,6 +131,7 @@ const administrarCurso = () => {
         const datos = await cursoQuery.get();
         if (datos.exists) {
           setCurso(datos.data());
+          setImagen(datos.data().urlportada);
           //setContenido(datos.data().contenido);
           setValores({
             categorias: datos.data().categorias,
@@ -367,6 +374,22 @@ const administrarCurso = () => {
             </div>
           </Grid>
           <Grid item xs={12}>
+            <TextField
+              //label="Imagen"
+              error={errores.url && true}
+              id="url"
+              name="url"
+              //value={urlportada}
+              onChange={onFileChange}
+              //onBlur={handleBlur}
+              helperText={errores.url}
+              variant="outlined"
+              //size="small"
+              type="file"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
             {error && (
               <Alert variant="filled" severity="error">
                 {error}
@@ -385,7 +408,7 @@ const administrarCurso = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <Button
-              onClick={() => router.push("/billetera")}
+              onClick={() => router.push("/dashboardInstructores")}
               variant="contained"
               color="secondary"
               style={{ width: "100%" }}
