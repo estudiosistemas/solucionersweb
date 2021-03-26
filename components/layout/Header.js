@@ -163,9 +163,9 @@ export default function Header({ darkMode, changeTheme }) {
     changeTheme();
   };
 
-  const togglePanelAlarma = () => {
+  const handleLogin = () => {
     handleMenuClose();
-    setOpeAlarm(!openAlarm);
+    router.push("/login");
   };
 
   const menuId = "primary-search-account-menu";
@@ -202,23 +202,27 @@ export default function Header({ darkMode, changeTheme }) {
         </IconButton>
         <p>{darkMode ? "Claro" : "Oscuro"}</p>
       </MenuItem>
-      <MenuItem onClick={togglePanelAlarma}>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <NotificationsIcon />
-        </IconButton>
-        <p>Alarmas</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Perfil</p>
-      </MenuItem>
+      {usuario ? null : (
+        <MenuItem onClick={handleLogin}>
+          <IconButton aria-label="show 11 new notifications" color="inherit">
+            <NotificationsIcon />
+          </IconButton>
+          <p>Login</p>
+        </MenuItem>
+      )}
+      {usuario ? (
+        <MenuItem onClick={handleProfileMenuOpen}>
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <p>Perfil</p>
+        </MenuItem>
+      ) : null}
     </Menu>
   );
 

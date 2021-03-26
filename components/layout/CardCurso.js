@@ -28,11 +28,19 @@ export default function CardCurso({ curso }) {
     router.push("/iniciar-curso[id]", `/iniciar-curso/${id}`);
   };
 
+  const handleAdministrarCurso = (id) => {
+    router.push("/administrar-curso[id]", `/administrar-curso/${id}`);
+  };
+
   useEffect(() => {
     if (usuario) {
-      setCursos(usuario.userProfile.cursos);
+      if (usuario.isInstructor) {
+        setCursos(usuario.instructorProfile.cursos);
+      } else {
+        setCursos(usuario.userProfile.cursos);
+      }
     }
-  }, []);
+  }, [usuario]);
 
   return (
     <Card className={classes.root}>
@@ -56,13 +64,23 @@ export default function CardCurso({ curso }) {
       <CardActions>
         {usuario ? (
           cursos.includes(curso.id) ? (
-            <Button
-              onClick={() => handleIniciarCurso(curso.id)}
-              size="small"
-              color="secondary"
-            >
-              Iniciar
-            </Button>
+            usuario.isInstructor ? (
+              <Button
+                onClick={() => handleAdministrarCurso(curso.id)}
+                size="small"
+                color="secondary"
+              >
+                Administrar
+              </Button>
+            ) : (
+              <Button
+                onClick={() => handleIniciarCurso(curso.id)}
+                size="small"
+                color="secondary"
+              >
+                Iniciar
+              </Button>
+            )
           ) : (
             <Button size="small" color="primary">
               Inscribirse

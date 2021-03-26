@@ -144,7 +144,7 @@ const MenuInstructores = ({ handleChangeTheme }) => {
         color="inherit"
         onClick={() => router.push("/dashboardInstructores")}
       >
-        Administrar Academia
+        Academia
       </Button>
     </>
   );

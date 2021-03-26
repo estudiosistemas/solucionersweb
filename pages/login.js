@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper, Button } from "@material-ui/core";
+import { Paper, Button, Divider } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 
 import TextField from "@material-ui/core/TextField";
 import Alert from "@material-ui/lab/Alert";
@@ -48,6 +48,7 @@ const Login = () => {
 
   const { email, password } = valores;
   const classes = useStyles();
+  const router = useRouter();
 
   async function iniciarSesion() {
     try {
@@ -117,6 +118,16 @@ const Login = () => {
           </Grid>
         </Grid>
       </form>
+      <Divider />
+      <p>Si no estas registrado puedes</p>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        color="inherit"
+        onClick={() => router.push("/crear-cuenta")}
+      >
+        Crear una cuenta
+      </Button>
     </Paper>
   );
 };

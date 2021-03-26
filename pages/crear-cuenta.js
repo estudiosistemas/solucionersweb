@@ -4,9 +4,10 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper } from "@material-ui/core";
+import { Paper, Divider } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import firebase from "../firebase";
+import { useRouter } from "next/router";
 
 // validaciones
 import useValidacion from "../hooks/useValidacion";
@@ -48,6 +49,7 @@ export default function CrearCuenta() {
 
   const { nombre, email, password } = valores;
   const classes = useStyles();
+  const router = useRouter();
 
   async function crearCuenta() {
     try {
@@ -126,11 +128,21 @@ export default function CrearCuenta() {
               color="primary"
               style={{ width: "100%" }}
             >
-              Iniciar Sesion
+              Crear Cuenta
             </Button>
           </Grid>
         </Grid>
       </form>
+      <Divider />
+      <p>Si ya estas registrado puedes</p>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        color="inherit"
+        onClick={() => router.push("/login")}
+      >
+        Iniciar Sesión
+      </Button>
     </Paper>
   );
 }
