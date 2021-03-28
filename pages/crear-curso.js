@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import Grid from "@material-ui/core/Grid";
-import { FirebaseContext } from "../../firebase";
+import { FirebaseContext } from "../firebase";
 import { makeStyles, useTheme, Paper } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -16,12 +16,12 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 
 // validaciones
-import useValidacion from "../../hooks/useValidacion";
-import validarCrearCurso from "../../validacion/validarCrearCurso";
+import useValidacion from "../hooks/useValidacion";
+import validarCrearCurso from "../validacion/validarCrearCurso";
 
-//tablas
-import useInstructor from "../../hooks/useInstructor";
-import useCategorias from "../../hooks/useCategorias";
+//hooks
+import useInstructor from "../hooks/useInstructor";
+import useCategorias from "../hooks/useCategorias";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -70,14 +70,11 @@ const MenuProps = {
   },
 };
 
-const administrarCurso = () => {
-  const [curso, setCurso] = useState([]);
+const crearCurso = () => {
   const [tmpTemario, setTmpTemario] = useState([]);
   const [tmpRequisitos, setTmpRequisitos] = useState([]);
   const [tmpContenido, setTmpContenido] = useState([]);
-  const [errorBuscar, setErrorBuscar] = useState(false);
   const [error, setError] = useState(false);
-  const [imagen, setImagen] = useState(null);
   const [imagenUpload, setImagenUpload] = useState(null);
 
   const [tmpValues, setTmpValues] = useState({
@@ -94,10 +91,6 @@ const administrarCurso = () => {
   const theme = useTheme();
 
   const {
-    query: { id },
-  } = router;
-
-  const {
     valores,
     errores,
     submitForm,
@@ -105,7 +98,7 @@ const administrarCurso = () => {
     handleSubmit,
     handleBlur,
     setValores,
-  } = useValidacion(STATE_INICIAL, validarCrearCurso, editarCurso);
+  } = useValidacion(STATE_INICIAL, validarCrearCurso, addCurso);
 
   const {
     categorias,
@@ -118,9 +111,9 @@ const administrarCurso = () => {
     urlportada,
   } = valores;
 
+  const { usuario, firebase } = useContext(FirebaseContext);
   const [instruc, SelectInstructor, setInstruc] = useInstructor([]);
   const [categ, SelectCategorias, setCateg] = useCategorias([]);
-  const { usuario, firebase } = useContext(FirebaseContext);
 
   const handleChangeTemp = (prop) => (event) => {
     setTmpValues({ ...tmpValues, [prop]: event.target.value });
@@ -167,7 +160,7 @@ const administrarCurso = () => {
     }
   };
 
-  async function editarCurso() {
+  async function addCurso() {
     // Controlo que haya usuario logueado
     if (!usuario) {
       return router.push("/login");
@@ -195,11 +188,11 @@ const administrarCurso = () => {
       requisitos: tmpRequisitos,
       temario: tmpTemario,
       urlportada: fileUrl,
+      creado: Date.now(),
     };
-    console.log(cursoUpdated);
 
     // inserto en DB
-    firebase.db.collection("cursos").doc(id).update(cursoUpdated);
+    firebase.db.collection("cursos").add(cursoUpdated);
     router.push("/dashboardInstructores");
   }
 
@@ -209,40 +202,24 @@ const administrarCurso = () => {
   };
 
   useEffect(() => {
-    if (id) {
-      const obtenerCurso = async () => {
-        const cursoQuery = await firebase.db.collection("cursos").doc(id);
-        const datos = await cursoQuery.get();
-        if (datos.exists) {
-          setCurso(datos.data());
-          setImagen(datos.data().urlportada);
-          setTmpContenido(datos.data().contenido);
-          setCateg(datos.data().categorias);
-          setInstruc(datos.data().instructores);
-          setTmpTemario(datos.data().temario);
-          setTmpRequisitos(datos.data().requisitos);
-          setValores({
-            categorias: datos.data().categorias,
-            contenido: datos.data().contenido,
-            descripcion: datos.data().descripcion,
-            instructores: datos.data().instructores,
-            nombre: datos.data().nombre,
-            requisitos: datos.data().requisitos,
-            temario: datos.data().temario,
-            urlportada: datos.data().urlportada,
-          });
-        } else {
-          setErrorBuscar(true);
-        }
-      };
-
-      obtenerCurso();
+    if (usuario) {
+      const instructorIni = [
+        {
+          nombre: usuario.userProfile.nombre,
+          usuario: usuario.uid,
+        },
+      ];
+      setInstruc(instructorIni);
+      setValores({
+        ...valores,
+        instructores: instructorIni,
+      });
     }
-  }, [id]);
+  }, [usuario]);
 
   return (
     <Paper className={classes.paper}>
-      <h2>Modificar Curso</h2>
+      <h2>Nuevo Curso</h2>
       <form noValidate>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -524,4 +501,4 @@ const administrarCurso = () => {
   );
 };
 
-export default administrarCurso;
+export default crearCurso;

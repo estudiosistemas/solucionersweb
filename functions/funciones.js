@@ -30,3 +30,9 @@ export function getNowDateTimeStr() {
 function AddZero(num) {
   return num >= 0 && num < 10 ? "0" + num : num + "";
 }
+
+export function userExists(id, arr) {
+  return arr.some(function (el) {
+    return el.usuario === id;
+  });
+}

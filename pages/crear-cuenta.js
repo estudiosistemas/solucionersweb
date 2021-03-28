@@ -54,7 +54,7 @@ export default function CrearCuenta() {
   async function crearCuenta() {
     try {
       await firebase.registrar(nombre, email, password);
-      Router.push("/billetera");
+      Router.push("/");
     } catch (error) {
       setError(error.message);
     }

@@ -58,9 +58,6 @@ export default function Home() {
             <Typography className={classes.heading}>
               Administración de Cursos
             </Typography>
-            <Button size="small" color="primary">
-              Nuevo Curso
-            </Button>
             {/* <Typography className={classes.secondaryHeading}>
             I am an accordion
           </Typography> */}
@@ -69,7 +66,11 @@ export default function Home() {
             <ListadoCursos />
           </AccordionDetails>
           <AccordionActions>
-            <Button size="small" color="primary">
+            <Button
+              size="small"
+              color="primary"
+              onClick={() => router.push("/crear-curso")}
+            >
               Nuevo Curso
             </Button>
           </AccordionActions>
@@ -86,9 +87,6 @@ export default function Home() {
             <Typography className={classes.heading}>
               Administración de Alumnos
             </Typography>
-            <Button size="small" color="primary">
-              Nuevo Alumno
-            </Button>
             {/* <Typography className={classes.secondaryHeading}>
             You are currently not an owner
           </Typography> */}

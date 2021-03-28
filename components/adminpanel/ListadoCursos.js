@@ -3,7 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import firebase, { FirebaseContext } from "../../firebase";
-import CardCurso from "../layout/CardCurso";
+import CardCurso from "./CardCurso";
+
+//funciones
+import { userExists } from "../../functions/funciones";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,17 +43,10 @@ const ListadoCursos = () => {
         ...doc.data(),
       };
     });
-    let misCursos = [];
-    if (usuario) misCursos = usuario.userProfile.cursos;
-
-    const resultFilter = result.filter((curso) => {
-      if (misCursos.includes(curso.id)) {
-        return curso;
-      } else {
-        return null;
-      }
+    const resultFilter = result.filter((curso, idx) => {
+      console.log(curso);
+      return userExists(usuario.uid, curso.instructores);
     });
-
     setCursos(resultFilter);
   }
 
