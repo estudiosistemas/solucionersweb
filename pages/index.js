@@ -4,6 +4,8 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import firebase from "../firebase";
 import CardCurso from "../components/layout/CardCurso";
+import Image from "next/image";
+import { Container } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,17 +45,31 @@ export default function Home() {
   }
 
   return (
-    <div className={classes.root}>
-      <h2>Cursos</h2>
-      <Grid container spacing={3}>
-        {cursos.length > 0
-          ? cursos.map((curso) => (
-              <Grid key={curso.id} item xs={12} sm={6} md={4} lg={3}>
-                <CardCurso curso={curso} />
-              </Grid>
-            ))
-          : null}
-      </Grid>
-    </div>
+    <>
+      <div>
+        <Image
+          src="/images/home.png"
+          alt="Soluciones para Todos"
+          layout="responsive"
+          object-fit="cover"
+          width={1600}
+          height={311}
+        />
+      </div>
+      <Container>
+        <div className={classes.root}>
+          <h2>Cursos</h2>
+          <Grid container spacing={3}>
+            {cursos.length > 0
+              ? cursos.map((curso) => (
+                  <Grid key={curso.id} item xs={12} sm={6} md={4} lg={3}>
+                    <CardCurso curso={curso} />
+                  </Grid>
+                ))
+              : null}
+          </Grid>
+        </div>
+      </Container>
+    </>
   );
 }

@@ -128,15 +128,39 @@ const MenuVisitante = ({ handleChangeTheme }) => {
         color="inherit"
         onClick={() => router.push("/")}
       >
-        Inicio
+        Home
       </Button>
       <Button
         className={classes.menuButton}
         size="small"
         color="inherit"
-        onClick={() => router.push("/nosotros")}
+        onClick={() => router.push("/recursos")}
       >
-        Nosotros
+        Recursos
+      </Button>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        color="inherit"
+        onClick={() => router.push("/canal")}
+      >
+        Canal
+      </Button>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        color="inherit"
+        onClick={() => router.push("/membresia")}
+      >
+        Memebresia
+      </Button>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        color="inherit"
+        onClick={() => router.push("/academia")}
+      >
+        Academia
       </Button>
     </>
   );

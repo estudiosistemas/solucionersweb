@@ -14,12 +14,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip";
-import Drawer from "@material-ui/core/Drawer";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import Image from "next/image";
 
 import { useRouter } from "next/router";
 
@@ -230,17 +225,15 @@ export default function Header({ darkMode, changeTheme }) {
     <div className={classes.grow}>
       <AppBar position="fixed" color="primary" className={classes.appBar}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Image
+            src="/images/logo.png"
+            alt="Soluciones para Todos"
+            width={100}
+            height={100}
+          />
+          {/* <Typography className={classes.title} variant="h6" noWrap>
             Soluciones Para Todos
-          </Typography>
+          </Typography> */}
           <div className={classes.grow} />
           {usuario ? (
             usuario.userProfile.isInstructor ? (

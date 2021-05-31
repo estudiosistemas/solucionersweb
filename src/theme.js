@@ -10,7 +10,7 @@ export const darkTheme = createMuiTheme({
       main: grey[900],
     },
     secondary: {
-      main: "#60b4df",
+      main: "#3D3D3D",
     },
     background: { paper: grey[900] },
   },
@@ -39,7 +39,7 @@ export const darkTheme = createMuiTheme({
 export const lightTheme = createMuiTheme({
   palette: {
     primary: {
-      main: "#60b4df",
+      main: "#3D3D3D",
       contrastText: "#fff",
     },
     secondary: {
