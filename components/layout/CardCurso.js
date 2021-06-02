@@ -53,7 +53,9 @@ export default function CardCurso({ curso }) {
             {curso.nombre}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {curso.descripcion}
+            {curso.descripcion.length > 300
+              ? curso.descripcion.substr(0, 300) + "..."
+              : curso.descripcion}
           </Typography>
         </CardContent>
       </CardActionArea>

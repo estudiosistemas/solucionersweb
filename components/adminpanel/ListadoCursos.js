@@ -7,6 +7,7 @@ import CardCurso from "./CardCurso";
 
 //funciones
 import { userExists } from "../../functions/funciones";
+import { SubdirectoryArrowRightOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,11 +44,14 @@ const ListadoCursos = () => {
         ...doc.data(),
       };
     });
-    const resultFilter = result.filter((curso, idx) => {
-      console.log(curso);
-      return userExists(usuario.uid, curso.instructores);
-    });
-    setCursos(resultFilter);
+    if (usuario.userProfile.isAdmin) {
+      setCursos(result);
+    } else {
+      const resultFilter = result.filter((curso, idx) => {
+        return userExists(usuario.uid, curso.instructores);
+      });
+      setCursos(resultFilter);
+    }
   }
 
   return (

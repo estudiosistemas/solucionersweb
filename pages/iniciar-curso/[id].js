@@ -12,6 +12,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import ReactPlayer from "react-player";
+import { Container } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -109,59 +110,62 @@ const iniciarCurso = () => {
   }, [id]);
 
   return (
-    <div className={classes.root}>
-      <h2>{curso.nombre}</h2>
-      <Grid container direction="row" spacing={2}>
-        <Grid item xs={12} sm={12} md={4}>
-          <Paper className={classes.paper}>
-            <List>
-              {contenido.length > 0
-                ? contenido.map((video, idx) => (
-                    <ListItem
-                      key={idx}
-                      role={undefined}
-                      dense
-                      button
-                      onClick={() => handlePlayVideo(video.url)}
-                    >
-                      <ListItemText primary={video.titulo} />
-                      <ListItemText primary={video.duracion} />
-                    </ListItem>
-                  ))
-                : null}
-            </List>
-          </Paper>
+    <Container>
+      <div className={classes.root}>
+        <h2>{curso.nombre}</h2>
+
+        <Grid container direction="row" spacing={2}>
+          <Grid item xs={12} sm={12} md={4}>
+            <Paper className={classes.paper}>
+              <List>
+                {contenido.length > 0
+                  ? contenido.map((video, idx) => (
+                      <ListItem
+                        key={idx}
+                        role={undefined}
+                        dense
+                        button
+                        onClick={() => handlePlayVideo(video.url)}
+                      >
+                        <ListItemText primary={video.titulo} />
+                        <ListItemText primary={video.duracion} />
+                      </ListItem>
+                    ))
+                  : null}
+              </List>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={12} md={8}>
+            <ReactPlayer
+              className={classes.player}
+              width="100%"
+              //height="100%"
+              url={url}
+              pip={pip}
+              playing={playing}
+              controls={controls}
+              light={light}
+              loop={loop}
+              playbackRate={playbackRate}
+              volume={volume}
+              muted={muted}
+              onReady={() => console.log("onReady")}
+              onStart={() => console.log("onStart")}
+              onPlay={handlePlay}
+              //onEnablePIP={handleEnablePIP}
+              //onDisablePIP={handleDisablePIP}
+              // onPause={handlePause}
+              onBuffer={() => console.log("onBuffer")}
+              onSeek={(e) => console.log("onSeek", e)}
+              // onEnded={handleEnded}
+              onError={(e) => console.log("onError", e)}
+              // onProgress={handleProgress}
+              // onDuration={handleDuration}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={8}>
-          <ReactPlayer
-            className={classes.player}
-            width="100%"
-            //height="100%"
-            url={url}
-            pip={pip}
-            playing={playing}
-            controls={controls}
-            light={light}
-            loop={loop}
-            playbackRate={playbackRate}
-            volume={volume}
-            muted={muted}
-            onReady={() => console.log("onReady")}
-            onStart={() => console.log("onStart")}
-            onPlay={handlePlay}
-            //onEnablePIP={handleEnablePIP}
-            //onDisablePIP={handleDisablePIP}
-            // onPause={handlePause}
-            onBuffer={() => console.log("onBuffer")}
-            onSeek={(e) => console.log("onSeek", e)}
-            // onEnded={handleEnded}
-            onError={(e) => console.log("onError", e)}
-            // onProgress={handleProgress}
-            // onDuration={handleDuration}
-          />
-        </Grid>
-      </Grid>
-    </div>
+      </div>
+    </Container>
   );
 };
 

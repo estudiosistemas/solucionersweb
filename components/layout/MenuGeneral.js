@@ -117,9 +117,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MenuInstructores = ({ handleChangeTheme }) => {
+const MenuGeneral = ({ handleChangeTheme }) => {
+  const { usuario, firebase } = useContext(FirebaseContext);
+
   const classes = useStyles();
   const router = useRouter();
+
+  const handleAcademia = () => {
+    {
+      usuario
+        ? usuario.userProfile.isInstructor
+          ? router.push("/dashboardInstructores")
+          : router.push("/dashboardAlumnos")
+        : router.push("/academia");
+    }
+  };
+
   return (
     <>
       <Button
@@ -128,21 +141,37 @@ const MenuInstructores = ({ handleChangeTheme }) => {
         color="inherit"
         onClick={() => router.push("/")}
       >
-        Inicio
+        Home
       </Button>
       <Button
         className={classes.menuButton}
         size="small"
         color="inherit"
-        onClick={() => router.push("/nosotros")}
+        onClick={() => router.push("/recursos")}
       >
-        Nosotros
+        Recursos
       </Button>
       <Button
         className={classes.menuButton}
         size="small"
         color="inherit"
-        onClick={() => router.push("/dashboardInstructores")}
+        onClick={() => router.push("/canal")}
+      >
+        Canal
+      </Button>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        color="inherit"
+        onClick={() => router.push("/membresia")}
+      >
+        Memebresia
+      </Button>
+      <Button
+        className={classes.menuButton}
+        size="small"
+        color="inherit"
+        onClick={handleAcademia}
       >
         Academia
       </Button>
@@ -150,4 +179,4 @@ const MenuInstructores = ({ handleChangeTheme }) => {
   );
 };
 
-export default MenuInstructores;
+export default MenuGeneral;

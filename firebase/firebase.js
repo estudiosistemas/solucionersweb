@@ -28,6 +28,7 @@ class Firebase {
         return this.db.collection("usuarios").add({
           avatar: "",
           cursos: [],
+          isAdmin: false,
           isInstructor: false,
           nombre,
           telegram: "",

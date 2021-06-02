@@ -3,27 +3,18 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
-import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Image from "next/image";
-
 import { useRouter } from "next/router";
-
 import { FirebaseContext } from "../../firebase";
-import MenuVisitante from "./MenuVisitante";
 import MenuLogin from "./MenuLogin";
-import MenuAlumnos from "./MenuAlumnos";
-import MenuInstructores from "./MenuInstructores";
 import MenuUser from "./MenuUser";
+import MenuGeneral from "./MenuGeneral";
 
 const drawerWidth = 355;
 
@@ -235,7 +226,8 @@ export default function Header({ darkMode, changeTheme }) {
             Soluciones Para Todos
           </Typography> */}
           <div className={classes.grow} />
-          {usuario ? (
+          <MenuGeneral />
+          {/* {usuario ? (
             usuario.userProfile.isInstructor ? (
               <MenuInstructores handleChangeTheme={handleChangeTheme} />
             ) : (
@@ -243,7 +235,7 @@ export default function Header({ darkMode, changeTheme }) {
             )
           ) : (
             <MenuVisitante handleChangeTheme={handleChangeTheme} />
-          )}
+          )} */}
 
           {usuario ? (
             <MenuUser

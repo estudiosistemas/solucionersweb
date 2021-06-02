@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+import { Container } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import firebase, { FirebaseContext } from "../firebase";
 import CardCurso from "../components/layout/CardCurso";
 import Error403 from "../components/layout/403";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,17 +63,29 @@ export default function Home() {
     return <Error403 />;
   } else
     return (
-      <div className={classes.root}>
-        <h2>Mis Cursos</h2>
-        <Grid container spacing={3}>
-          {cursos.length > 0
-            ? cursos.map((curso, idx) => (
-                <Grid key={idx} item xs={12} sm={6} md={4} lg={3}>
-                  <CardCurso curso={curso} />
-                </Grid>
-              ))
-            : null}
-        </Grid>
-      </div>
+      <>
+        <Image
+          src="/images/academia.png"
+          alt="Soluciones para Todos"
+          layout="responsive"
+          object-fit="cover"
+          width={1600}
+          height={311}
+        />
+        <Container>
+          <div className={classes.root}>
+            <h2>Mis Cursos</h2>
+            <Grid container spacing={3}>
+              {cursos.length > 0
+                ? cursos.map((curso, idx) => (
+                    <Grid key={idx} item xs={12} sm={6} md={4} lg={3}>
+                      <CardCurso curso={curso} />
+                    </Grid>
+                  ))
+                : null}
+            </Grid>
+          </div>
+        </Container>
+      </>
     );
 }
