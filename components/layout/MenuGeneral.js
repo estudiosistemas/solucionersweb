@@ -1,25 +1,6 @@
 import React, { useContext, useState } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
-import Badge from "@material-ui/core/Badge";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import Brightness4Icon from "@material-ui/icons/Brightness4";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import MoreIcon from "@material-ui/icons/MoreVert";
 import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip";
-import Drawer from "@material-ui/core/Drawer";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { useRouter } from "next/router";
 import { FirebaseContext } from "../../firebase";
 

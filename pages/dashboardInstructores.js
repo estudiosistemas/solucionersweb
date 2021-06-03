@@ -15,6 +15,7 @@ import Error403 from "../components/layout/403";
 import { useRouter } from "next/router";
 import firebase, { FirebaseContext } from "../firebase";
 import Image from "next/image";
+import ListadoAlumnos from "../components/adminpanel/ListadoAlumnos";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,11 +105,7 @@ export default function Home() {
           </Typography> */}
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
-                  Donec placerat, lectus sed mattis semper, neque lectus feugiat
-                  lectus, varius pulvinar diam eros in elit. Pellentesque
-                  convallis laoreet laoreet.
-                </Typography>
+                <ListadoAlumnos />
               </AccordionDetails>
 
               <AccordionActions>

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import Grid from "@material-ui/core/Grid";
 import { FirebaseContext } from "../../firebase";
-import { makeStyles, useTheme, Paper } from "@material-ui/core";
+import { makeStyles, useTheme, Paper, Container } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
@@ -241,286 +241,292 @@ const administrarCurso = () => {
   }, [id]);
 
   return (
-    <Paper className={classes.paper}>
-      <h2>Modificar Curso</h2>
-      <form noValidate>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <TextField
-              label="Nombre"
-              error={errores.nombre && true}
-              id="nombre"
-              name="nombre"
-              value={nombre}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              helperText={errores.nombre}
-              variant="outlined"
-              size="small"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Descripción"
-              error={errores.descripcion && true}
-              id="descripcion"
-              name="descripcion"
-              value={descripcion}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              helperText={errores.descripcion}
-              variant="outlined"
-              size="small"
-              multiline
-              rows={4}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Temario"
-              id="tmp_temario"
-              name="tmp_temario"
-              value={tmpValues.temario}
-              onChange={handleChangeTemp("temario")}
-              onBlur={handleBlur}
-              variant="outlined"
-              size="small"
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      edge="end"
-                      aria-label="addTemario"
-                      onClick={handleAddTemario}
-                    >
-                      <AddIcon fontSize="small" />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Requisitos"
-              id="tmp_requisitos"
-              name="tmp_requisitos"
-              value={tmpValues.requisito}
-              onChange={handleChangeTemp("requisito")}
-              onBlur={handleBlur}
-              variant="outlined"
-              size="small"
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      edge="end"
-                      aria-label="addRequisito"
-                      onClick={handleAddRequisitos}
-                    >
-                      <AddIcon fontSize="small" />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <div className={classes.demo}>
-              <List dense>
-                {tmpTemario.length > 0
-                  ? tmpTemario.map((tema, idx) => (
-                      <ListItem key={idx}>
-                        <ListItemText primary={tema} />
-                        <ListItemSecondaryAction>
-                          <IconButton edge="end" aria-label="delete">
-                            <DeleteIcon
-                              fontSize="small"
-                              color="action"
+    <Container>
+      <Paper className={classes.paper}>
+        <h2>Modificar Curso</h2>
+        <form noValidate>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TextField
+                label="Nombre"
+                error={errores.nombre && true}
+                id="nombre"
+                name="nombre"
+                value={nombre}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                helperText={errores.nombre}
+                variant="outlined"
+                size="small"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Descripción"
+                error={errores.descripcion && true}
+                id="descripcion"
+                name="descripcion"
+                value={descripcion}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                helperText={errores.descripcion}
+                variant="outlined"
+                size="small"
+                multiline
+                rows={4}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Temario"
+                id="tmp_temario"
+                name="tmp_temario"
+                value={tmpValues.temario}
+                onChange={handleChangeTemp("temario")}
+                onBlur={handleBlur}
+                variant="outlined"
+                size="small"
+                fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        edge="end"
+                        aria-label="addTemario"
+                        onClick={handleAddTemario}
+                      >
+                        <AddIcon fontSize="small" />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Requisitos"
+                id="tmp_requisitos"
+                name="tmp_requisitos"
+                value={tmpValues.requisito}
+                onChange={handleChangeTemp("requisito")}
+                onBlur={handleBlur}
+                variant="outlined"
+                size="small"
+                fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        edge="end"
+                        aria-label="addRequisito"
+                        onClick={handleAddRequisitos}
+                      >
+                        <AddIcon fontSize="small" />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <div className={classes.demo}>
+                <List dense>
+                  {tmpTemario.length > 0
+                    ? tmpTemario.map((tema, idx) => (
+                        <ListItem key={idx}>
+                          <ListItemText primary={tema} />
+                          <ListItemSecondaryAction>
+                            <IconButton edge="end" aria-label="delete">
+                              <DeleteIcon
+                                fontSize="small"
+                                color="action"
+                                onClick={() =>
+                                  handleDeleteTmp(
+                                    tema,
+                                    tmpTemario,
+                                    setTmpTemario
+                                  )
+                                }
+                              />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                      ))
+                    : null}
+                </List>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <div className={classes.demo}>
+                <List dense>
+                  {tmpRequisitos.length > 0
+                    ? tmpRequisitos.map((requisito, idx) => (
+                        <ListItem key={idx}>
+                          <ListItemText primary={requisito} />
+                          <ListItemSecondaryAction>
+                            <IconButton
+                              edge="end"
+                              aria-label="delete"
                               onClick={() =>
-                                handleDeleteTmp(tema, tmpTemario, setTmpTemario)
+                                handleDeleteTmp(
+                                  requisito,
+                                  tmpRequisitos,
+                                  setTmpRequisitos
+                                )
                               }
-                            />
-                          </IconButton>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    ))
-                  : null}
-              </List>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <div className={classes.demo}>
-              <List dense>
-                {tmpRequisitos.length > 0
-                  ? tmpRequisitos.map((requisito, idx) => (
-                      <ListItem key={idx}>
-                        <ListItemText primary={requisito} />
-                        <ListItemSecondaryAction>
-                          <IconButton
-                            edge="end"
-                            aria-label="delete"
-                            onClick={() =>
-                              handleDeleteTmp(
-                                requisito,
-                                tmpRequisitos,
-                                setTmpRequisitos
-                              )
-                            }
-                          >
-                            <DeleteIcon fontSize="small" color="action" />
-                          </IconButton>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    ))
-                  : null}
-              </List>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={2}>
-            <TextField
-              id="tmp_duracion"
-              name="tmp_duracion"
-              value={tmpValues.duracion}
-              onChange={handleChangeTemp("duracion")}
-              onBlur={handleBlur}
-              variant="outlined"
-              size="small"
-              type="time"
-              inputProps={{
-                step: 2,
-              }}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={5}>
-            <TextField
-              label="Título"
-              id="tmp_titulo"
-              name="tmp_titulo"
-              value={tmpValues.titulo}
-              onChange={handleChangeTemp("titulo")}
-              onBlur={handleBlur}
-              variant="outlined"
-              size="small"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={5}>
-            <TextField
-              label="URL"
-              id="tmp_url"
-              name="tmp_url"
-              value={tmpValues.url}
-              onChange={handleChangeTemp("url")}
-              onBlur={handleBlur}
-              helperText={errores.url}
-              variant="outlined"
-              size="small"
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      edge="end"
-                      aria-label="addContenido"
-                      onClick={handleAddContenido}
-                    >
-                      <AddIcon fontSize="small" />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <div className={classes.demo}>
-              <List dense>
-                {tmpContenido.length > 0
-                  ? tmpContenido.map((cont, idx) => (
-                      <ListItem key={idx}>
-                        <ListItemText
-                          primary={`${cont.titulo} - ${cont.duracion}`}
-                          secondary={cont.url}
-                        />
-                        <ListItemSecondaryAction>
-                          <IconButton
-                            edge="end"
-                            aria-label="delete"
-                            onClick={() =>
-                              handleDeleteTmp(
-                                cont,
-                                tmpContenido,
-                                setTmpContenido
-                              )
-                            }
-                          >
-                            <DeleteIcon fontSize="small" color="action" />
-                          </IconButton>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    ))
-                  : null}
-              </List>
-            </div>
-          </Grid>
+                            >
+                              <DeleteIcon fontSize="small" color="action" />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                      ))
+                    : null}
+                </List>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <TextField
+                id="tmp_duracion"
+                name="tmp_duracion"
+                value={tmpValues.duracion}
+                onChange={handleChangeTemp("duracion")}
+                onBlur={handleBlur}
+                variant="outlined"
+                size="small"
+                type="time"
+                inputProps={{
+                  step: 2,
+                }}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={5}>
+              <TextField
+                label="Título"
+                id="tmp_titulo"
+                name="tmp_titulo"
+                value={tmpValues.titulo}
+                onChange={handleChangeTemp("titulo")}
+                onBlur={handleBlur}
+                variant="outlined"
+                size="small"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={5}>
+              <TextField
+                label="URL"
+                id="tmp_url"
+                name="tmp_url"
+                value={tmpValues.url}
+                onChange={handleChangeTemp("url")}
+                onBlur={handleBlur}
+                helperText={errores.url}
+                variant="outlined"
+                size="small"
+                fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        edge="end"
+                        aria-label="addContenido"
+                        onClick={handleAddContenido}
+                      >
+                        <AddIcon fontSize="small" />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <div className={classes.demo}>
+                <List dense>
+                  {tmpContenido.length > 0
+                    ? tmpContenido.map((cont, idx) => (
+                        <ListItem key={idx}>
+                          <ListItemText
+                            primary={`${cont.titulo} - ${cont.duracion}`}
+                            secondary={cont.url}
+                          />
+                          <ListItemSecondaryAction>
+                            <IconButton
+                              edge="end"
+                              aria-label="delete"
+                              onClick={() =>
+                                handleDeleteTmp(
+                                  cont,
+                                  tmpContenido,
+                                  setTmpContenido
+                                )
+                              }
+                            >
+                              <DeleteIcon fontSize="small" color="action" />
+                            </IconButton>
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                      ))
+                    : null}
+                </List>
+              </div>
+            </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <SelectCategorias />
+            <Grid item xs={12} sm={6}>
+              <SelectCategorias />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <SelectInstructor />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                //label="Imagen"
+                error={errores.url && true}
+                id="url"
+                name="url"
+                //value={urlportada}
+                onChange={onFileChange}
+                //onBlur={handleBlur}
+                helperText={errores.url}
+                variant="outlined"
+                //size="small"
+                type="file"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              {error && (
+                <Alert variant="filled" severity="error">
+                  {error}
+                </Alert>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button
+                onClick={handleSubmit}
+                variant="contained"
+                color="primary"
+                style={{ width: "100%" }}
+              >
+                Guardar Cambios
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button
+                onClick={() => router.push("/dashboardInstructores")}
+                variant="contained"
+                color="secondary"
+                style={{ width: "100%" }}
+              >
+                Cancelar
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <SelectInstructor />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              //label="Imagen"
-              error={errores.url && true}
-              id="url"
-              name="url"
-              //value={urlportada}
-              onChange={onFileChange}
-              //onBlur={handleBlur}
-              helperText={errores.url}
-              variant="outlined"
-              //size="small"
-              type="file"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            {error && (
-              <Alert variant="filled" severity="error">
-                {error}
-              </Alert>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              color="primary"
-              style={{ width: "100%" }}
-            >
-              Guardar Cambios
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Button
-              onClick={() => router.push("/dashboardInstructores")}
-              variant="contained"
-              color="secondary"
-              style={{ width: "100%" }}
-            >
-              Cancelar
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
-    </Paper>
+        </form>
+      </Paper>
+    </Container>
   );
 };
 
