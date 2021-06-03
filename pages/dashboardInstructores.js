@@ -15,7 +15,7 @@ import Error403 from "../components/layout/403";
 import { useRouter } from "next/router";
 import firebase, { FirebaseContext } from "../firebase";
 import Image from "next/image";
-import ListadoAlumnos from "../components/adminpanel/ListadoAlumnos";
+//import ListadoAlumnos from "../components/adminpanel/ListadoAlumnos";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -100,13 +100,11 @@ export default function Home() {
                 <Typography className={classes.heading}>
                   Administración de Alumnos
                 </Typography>
-                {/* <Typography className={classes.secondaryHeading}>
-            You are currently not an owner
-          </Typography> */}
+                <Typography className={classes.secondaryHeading}>
+                  You are currently not an owner
+                </Typography>
               </AccordionSummary>
-              <AccordionDetails>
-                <ListadoAlumnos />
-              </AccordionDetails>
+              <AccordionDetails>{/* <ListadoAlumnos /> */}</AccordionDetails>
 
               <AccordionActions>
                 <Button size="small" color="primary">
