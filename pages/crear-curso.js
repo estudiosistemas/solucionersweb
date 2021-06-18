@@ -22,6 +22,8 @@ import validarCrearCurso from "../validacion/validarCrearCurso";
 //hooks
 import useInstructor from "../hooks/useInstructor";
 import useCategorias from "../hooks/useCategorias";
+import { ListItemIcon } from "@material-ui/core";
+import { Switch } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -119,6 +121,12 @@ const crearCurso = () => {
     setTmpValues({ ...tmpValues, [prop]: event.target.value });
   };
 
+  const toogleHabilitado = (id) => (event) => {
+    const miArray = tmpContenido;
+    miArray[id].habilitado = event.target.checked;
+    setTmpContenido(miArray);
+  };
+
   const handleDeleteTmp = (valor, tmp, setTmp) => {
     var filtered = tmp.filter((value, index, arr) => {
       return value != valor;
@@ -149,6 +157,7 @@ const crearCurso = () => {
           duracion: tmpValues.duracion,
           titulo: tmpValues.titulo,
           url: tmpValues.url,
+          habilitado: false,
         },
       ]);
       setTmpValues({
@@ -156,6 +165,7 @@ const crearCurso = () => {
         duracion: "",
         titulo: "",
         url: "",
+        habilitado: false,
       });
     }
   };
@@ -425,6 +435,18 @@ const crearCurso = () => {
                   {tmpContenido.length > 0
                     ? tmpContenido.map((cont, idx) => (
                         <ListItem key={idx}>
+                          <ListItemIcon>
+                            <Switch
+                              edge="start"
+                              size="small"
+                              onChange={toogleHabilitado(idx)}
+                              checked={cont.habilitado}
+                              inputProps={{
+                                "aria-labelledby":
+                                  "switch-list-label-bluetooth",
+                              }}
+                            />
+                          </ListItemIcon>
                           <ListItemText
                             primary={`${cont.titulo} - ${cont.duracion}`}
                             secondary={cont.url}

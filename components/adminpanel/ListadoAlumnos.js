@@ -7,16 +7,49 @@ import textLabelsSpanish from "../tableLabelsLocation";
 import firebase, { FirebaseContext } from "../../firebase";
 import Button from "@material-ui/core/Button";
 import TableRow from "@material-ui/core/TableRow";
+import { Checkbox } from "@material-ui/core";
+import { FormControlLabel } from "@material-ui/core";
+import { Switch } from "@material-ui/core";
+import { ColorLensOutlined } from "@material-ui/icons";
 
-export default function ListadoAlumnos() {
+export default function ListadoAlumnos({ idCurso }) {
   const [listado, setListado] = useState([]);
   const { usuario } = useContext(FirebaseContext);
-  const [filaSelected, setFilaSelected] = useState([]);
-  const [filaExpanded, setFilaExpanded] = useState([]);
-  const classes = useStyles();
+  //const [tmpCursos, setTmpCursos] = useState([]);
 
-  const handleCursos = (id) => {
-    alert(id);
+  const toggleCursos = (index, valor) => {
+    const arrCursos = listado[index].cursos;
+    const tmpArray = listado;
+    let tmpCursos = [];
+    if (!valor) {
+      tmpCursos = [...arrCursos, idCurso];
+    } else {
+      tmpCursos = arrCursos.filter((value, index, arr) => {
+        return value != idCurso;
+      });
+    }
+    tmpArray[index].cursos = tmpCursos;
+    setListado(tmpArray);
+    editarCursoAlumno(listado[index].id, tmpCursos);
+  };
+
+  async function editarCursoAlumno(idAlumno, cursosAlumno) {
+    // Controlo que haya usuario logueado
+    if (!usuario) {
+      return router.push("/login");
+    }
+
+    // inserto en DB
+    firebase.db
+      .collection("usuarios")
+      .doc(idAlumno)
+      .update({ cursos: cursosAlumno });
+  }
+
+  const checkCurso = (cursos) => {
+    return cursos.some(function (el) {
+      return el === idCurso;
+    });
   };
 
   useEffect(() => {
@@ -32,8 +65,10 @@ export default function ListadoAlumnos() {
 
   function manejarSnapshotAlumnos(snapshot) {
     const result = snapshot.docs.map((doc) => {
+      const inscripto = checkCurso(doc.data().cursos);
       return {
         id: doc.id,
+        inscripto,
         ...doc.data(),
       };
     });
@@ -61,37 +96,43 @@ export default function ListadoAlumnos() {
         },
       },
     },
+    // {
+    //   name: "usuario",
+    //   options: { display: "exclude" },
+    // },
     {
-      name: "usuario",
-      options: { display: "exclude" },
+      label: "Email",
+      name: "email",
     },
     {
       label: "Telegram",
       name: "telegram",
-      // options: {
-      //   filter: false,
-      //   customBodyRenderLite: (dataIndex) => {
-      //     let val = listado[dataIndex].valor;
-      //     return <TableNumberFormat valor={val} decimales={4} />;
-      //   },
-      // },
     },
     {
-      name: "Acciones",
+      label: "Inscripto",
+      name: "inscripto",
       options: {
-        filter: false,
-        sort: false,
-        empty: true,
-        customBodyRenderLite: (dataIndex, rowIndex) => {
+        filter: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
           return (
-            <Button
-              className={classes.menuButton}
-              size="small"
-              color="secondary"
-              onClick={() => handleCursos(listado[dataIndex].id)}
-            >
-              Cursos
-            </Button>
+            <FormControlLabel
+              label={value ? "Si" : "No"}
+              value={value ? "Si" : "No"}
+              control={
+                <Switch
+                  color="secondary"
+                  checked={value}
+                  value={value ? "Si" : "No"}
+                />
+              }
+              onChange={(event) => {
+                toggleCursos(
+                  tableMeta.currentTableData[tableMeta.rowIndex].index,
+                  value
+                );
+                updateValue(event.target.value === "Si" ? false : true);
+              }}
+            />
           );
         },
       },
@@ -110,37 +151,13 @@ export default function ListadoAlumnos() {
     searchPlaceholder: "Buscar...",
     searchOpen: true,
     viewColumns: false,
-    expandableRows: true,
+    expandableRows: false,
     expandableRowsHeader: false,
     expandableRowsOnClick: false,
-    rowsExpanded: filaExpanded,
-    isRowExpandable: (dataIndex, expandedRows) => {
-      if (
-        expandedRows.data.length > 4 &&
-        expandedRows.data.filter((d) => d.dataIndex === dataIndex).length === 0
-      )
-        return false;
-      return true;
-    },
-    renderExpandableRow: (rowData, rowMeta) => {
-      const colSpan = rowData.length + 1;
-      return (
-        <TableRow>
-          <TableCell colSpan={colSpan}>
-            {/* <Events coin={rowData[0]} /> */}
-            {rowData[1]}
-          </TableCell>
-        </TableRow>
-      );
-    },
-    onRowExpansionChange: (curExpanded, allExpanded, rowsExpanded) => {
-      const filas = allExpanded.map((fila) => fila.dataIndex);
-      setFilaExpanded(filas);
-    },
     setTableProps: () => {
       return {
         padding: "default",
-        size: "medium",
+        size: "small",
       };
     },
     textLabels: textLabelsSpanish,
@@ -165,9 +182,5 @@ export default function ListadoAlumnos() {
     },
   };
 
-  return (
-    <div>
-      <MUIDataTable data={listado} columns={columns} options={options} />
-    </div>
-  );
+  return <MUIDataTable data={listado} columns={columns} options={options} />;
 }

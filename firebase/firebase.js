@@ -32,6 +32,7 @@ class Firebase {
           isInstructor: false,
           nombre,
           telegram: "",
+          email: email,
           usuario: this.auth.currentUser.uid,
         });
       })

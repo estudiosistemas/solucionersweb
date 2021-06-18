@@ -30,6 +30,14 @@ export default function CardCurso({ curso }) {
     router.push("/administrar-curso[id]", `/administrar-curso/${id}`);
   };
 
+  const handleAsignarCurso = (id) => {
+    //router.push(`/asignar-curso/${id}`);
+    router.push({
+      pathname: "/asignar-curso/[pid]",
+      query: { pid: id, titulo: curso.nombre },
+    });
+  };
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -59,6 +67,13 @@ export default function CardCurso({ curso }) {
             color="secondary"
           >
             Administrar
+          </Button>
+          <Button
+            onClick={() => handleAsignarCurso(curso.id)}
+            size="small"
+            color="secondary"
+          >
+            Alumnos
           </Button>
 
           <Button

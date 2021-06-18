@@ -13,6 +13,7 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import ReactPlayer from "react-player";
 import { Container } from "@material-ui/core";
+import SingleContenido from "../../components/cursos/SingleContenido";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -116,24 +117,15 @@ const iniciarCurso = () => {
 
         <Grid container direction="row" spacing={2}>
           <Grid item xs={12} sm={12} md={4}>
-            <Paper className={classes.paper}>
-              <List>
-                {contenido.length > 0
-                  ? contenido.map((video, idx) => (
-                      <ListItem
-                        key={idx}
-                        role={undefined}
-                        dense
-                        button
-                        onClick={() => handlePlayVideo(video.url)}
-                      >
-                        <ListItemText primary={video.titulo} />
-                        <ListItemText primary={video.duracion} />
-                      </ListItem>
-                    ))
-                  : null}
-              </List>
-            </Paper>
+            {contenido.length > 0
+              ? contenido.map((video, idx) => (
+                  <SingleContenido
+                    key={idx}
+                    curso={video}
+                    handlePlayVideo={handlePlayVideo}
+                  />
+                ))
+              : null}
           </Grid>
           <Grid item xs={12} sm={12} md={8}>
             <ReactPlayer
