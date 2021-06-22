@@ -48,7 +48,7 @@ export default function Home() {
     <>
       <div>
         <Image
-          src="/images/academia.png"
+          src="/static/images/academia.png"
           alt="Soluciones para Todos"
           layout="responsive"
           object-fit="cover"
