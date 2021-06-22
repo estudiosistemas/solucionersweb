@@ -32,7 +32,7 @@ export default function Home() {
     <>
       <div>
         <Image
-          src="/static/images/recursos.png"
+          src="/images/recursos.png"
           alt="Soluciones para Todos"
           layout="responsive"
           object-fit="cover"

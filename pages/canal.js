@@ -31,7 +31,7 @@ export default function Home() {
     <>
       <div>
         <Image
-          src="/static/images/canal.png"
+          src="/images/canal.png"
           alt="Soluciones para Todos"
           layout="responsive"
           object-fit="cover"

@@ -22,7 +22,7 @@ export default function Home() {
     <>
       <div>
         <Image
-          src="/static/images/membresia.png"
+          src="/images/membresia.png"
           alt="Soluciones para Todos"
           layout="responsive"
           object-fit="cover"

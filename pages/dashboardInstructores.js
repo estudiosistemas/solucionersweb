@@ -49,7 +49,7 @@ export default function Home() {
     return (
       <>
         <Image
-          src="/static/images/academia.png"
+          src="/images/academia.png"
           alt="Soluciones para Todos"
           layout="responsive"
           object-fit="cover"
